@@ -1,0 +1,91 @@
+---
+title: "Contributing to mypos: environment setup and bug reports"
+description: "Set up a local development environment, understand the project structure, and submit well-scoped pull requests to the mypos Fabric mod repository."
+---
+
+mypos welcomes contributions, whether that is a focused bug fix, a small improvement, or a well-scoped new behaviour. Because the project follows a "do one thing, do it well" philosophy, the bar for a contribution is less about size and more about staying within scope.
+
+<Info>
+mypos is maintained by a single developer, **the_big_fat_seal**. Review and merge cycles may be slower than larger projects. Please be patient, and keep pull requests small so they are easier to evaluate.
+</Info>
+
+## Setting up a development environment
+
+<Steps>
+  <Step title="Fork the repository">
+    Go to [https://github.com/allen-wang-2001/mypos](https://github.com/allen-wang-2001/mypos) and click **Fork** to create a copy under your own GitHub account.
+  </Step>
+
+  <Step title="Clone your fork">
+    ```bash
+    git clone https://github.com/<your-username>/mypos.git
+    cd mypos
+    ```
+  </Step>
+
+  <Step title="Import as a Gradle project in IntelliJ IDEA">
+    IntelliJ IDEA is the recommended IDE for Fabric mod development. Open the project by selecting **File → Open** and choosing the `mypos` directory. IDEA will detect the Gradle build files and import the project automatically.
+
+    <Note>
+    The project sets `org.gradle.configuration-cache=false` in `gradle.properties` because IntelliJ IDEA is not yet fully compatible with Gradle's configuration cache when used with Fabric Loom.
+    </Note>
+  </Step>
+
+  <Step title="Generate Minecraft sources">
+    Run the Fabric Loom source generation task so that IDEA can resolve and navigate Minecraft classes:
+
+    ```bash
+    ./gradlew genSources
+    ```
+
+    After this completes, reload the Gradle project in IDEA (**Gradle panel → Reload**) to pick up the attached sources.
+  </Step>
+</Steps>
+
+## Project structure
+
+```
+mypos/
+├── build.gradle                    # Build configuration (Fabric Loom, Java 25)
+├── gradle.properties               # Version configuration
+├── src/
+│   └── main/
+│       ├── java/
+│       │   └── com/github/allen_wang_2001/
+│       │       ├── Mypos.java              # Main mod logic
+│       │       └── mixin/                  # Mixin classes
+│       └── resources/
+│           ├── fabric.mod.json             # Mod metadata
+│           └── mypos.mixins.json           # Mixin configuration
+```
+
+| Path | Purpose |
+|---|---|
+| `src/main/java/com/github/allen_wang_2001/Mypos.java` | Server-side entrypoint; registers the `ServerMessageEvents.ALLOW_CHAT_MESSAGE` listener and contains all coordinate-substitution logic. |
+| `src/main/java/com/github/allen_wang_2001/mixin/` | Mixin classes that hook into Minecraft internals at the bytecode level. |
+| `src/main/resources/fabric.mod.json` | Mod metadata: ID, version, dependencies, entrypoints, and Mixin config references. |
+| `src/main/resources/mypos.mixins.json` | Lists all Mixin classes so Fabric Loader can apply them at startup. |
+| `gradle.properties` | Canonical version pins for Minecraft (`26.1.2`), Fabric Loader (`0.19.2`), and Fabric API (`0.149.0+26.1.2`). |
+
+## Reporting bugs
+
+Before opening a pull request to fix a bug, please file an issue first so it can be confirmed and discussed:
+
+[https://github.com/allen-wang-2001/mypos/issues](https://github.com/allen-wang-2001/mypos/issues)
+
+Include the Minecraft version, Fabric Loader version, a description of the unexpected behaviour, and steps to reproduce it.
+
+## Contribution guidelines
+
+<Note>
+mypos follows the Unix philosophy: **"do one thing, do it well."** Pull requests should stay tightly focused. A PR that adds coordinate sharing for a new trigger word is in scope; one that adds a GUI configuration screen is not.
+</Note>
+
+- Match the existing code style. The project uses standard Java formatting with tab indentation.
+- Keep logic in `Mypos.java` unless a Mixin is genuinely required.
+- Do not introduce new runtime dependencies without prior discussion in an issue.
+- All contributions are accepted under the project's **MIT** license.
+
+<Warning>
+The comment on line 40 of `Mypos.java` is intentional. Do not remove or reformat the `else ;` branch — PRs that touch it will not be merged.
+</Warning>

@@ -1,0 +1,43 @@
+{
+  "projectType": "general",
+  "projectName": "mypos",
+  "projectDescription": "A lightweight Minecraft Fabric server mod that replaces the keyword 'mypos' in chat with the sending player's current coordinates.",
+  "theme": "palm",
+  "primaryColor": "#4CAF50",
+  "lightColor": null,
+  "darkColor": null,
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Documentation",
+        "groups": [
+          {
+            "group": "Get Started",
+            "pages": ["introduction", "installation"]
+          },
+          {
+            "group": "Usage",
+            "pages": ["usage/overview", "usage/examples"]
+          },
+          {
+            "group": "Development",
+            "pages": ["development/building", "development/contributing"]
+          }
+        ]
+      }
+    ]
+  },
+  "keyFeatures": [
+    "Replaces 'mypos' keyword in chat with the player's current X, Y, Z coordinates",
+    "Supports exact match (private coordinate message) and inline substitution in chat messages",
+    "Server-side only — no client mod required",
+    "Zero-config: works out of the box with no setup after installation",
+    "Lightweight and focused — does exactly one thing"
+  ],
+  "publicApiSurface": [
+    "Chat keyword: mypos (exact) — sends coordinates privately to the sender",
+    "Chat keyword: mypos (inline) — broadcasts message with coordinates substituted inline",
+    "Server entrypoint: com.github.allen_wang_2001.Mypos (DedicatedServerModInitializer)",
+    "Event: ServerMessageEvents.ALLOW_CHAT_MESSAGE (intercepts and processes chat)"
+  ]
+}

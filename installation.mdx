@@ -1,0 +1,83 @@
+---
+title: "Installing mypos on a Minecraft Fabric dedicated server"
+description: "How to download, place, and verify the mypos mod on a Fabric dedicated server — no configuration required after dropping in the jar."
+---
+
+Installing mypos takes under a minute. The mod ships as a single `.jar` file with no configuration and no extra setup. Drop it into your `mods/` folder alongside Fabric Loader and Fabric API and start your server.
+
+## Prerequisites
+
+Your server must be running the following before you install mypos.
+
+| Dependency    | Required version        |
+| ------------- | ----------------------- |
+| Minecraft     | `~26.1.2`               |
+| Fabric Loader | `>=0.19.2`              |
+| Fabric API    | `0.149.0+26.1.2` or any compatible build |
+| Java          | `>=25`                  |
+
+<Warning>
+  mypos targets Minecraft `~26.1.2`. The tilde constraint means it is compatible with `26.1.2` and patch releases in that series, but not with other minor or major versions. Running it on a different Minecraft version is unsupported and will likely cause a crash at startup.
+</Warning>
+
+## Installation steps
+
+<Steps>
+  <Step title="Verify Fabric Loader is installed">
+    Make sure your server is already running Fabric Loader `>=0.19.2`. You can confirm by checking the server startup log for a line like:
+
+    ```text
+    [Fabric Loader] Loading 1 mods
+    ```
+
+    If Fabric Loader is not installed, follow the [official Fabric installation guide](https://fabricmc.net/use/server/) first.
+  </Step>
+
+  <Step title="Verify Fabric API is installed">
+    Confirm that `fabric-api-0.149.0+26.1.2.jar` (or a compatible build) is present in your `mods/` directory. Fabric API is available from [Modrinth](https://modrinth.com/mod/fabric-api) and [CurseForge](https://www.curseforge.com/minecraft/mc-mods/fabric-api).
+  </Step>
+
+  <Step title="Download the mypos jar">
+    Download the latest `mypos-*.jar` from the [GitHub releases page](https://github.com/allen-wang-2001/mypos/releases).
+  </Step>
+
+  <Step title="Place the jar in your mods folder">
+    Copy the downloaded file into your server's `mods/` directory:
+
+    ```bash
+    cp mypos-*.jar /path/to/your/server/mods/
+    ```
+
+    Your `mods/` directory should now contain at minimum:
+
+    ```text
+    mods/
+    ├── fabric-api-0.149.0+26.1.2.jar
+    └── mypos-<version>.jar
+    ```
+  </Step>
+
+  <Step title="Start the server and verify">
+    Start your server as normal. Fabric Loader prints the list of loaded mods during startup. Look for `mypos` in that list — for example:
+
+    ```text
+    [Fabric Loader] Loading N mods: ... mypos ...
+    ```
+
+    The mod ID is `mypos`. If you see it in the loaded-mods list, the installation was successful.
+  </Step>
+</Steps>
+
+## No configuration needed
+
+mypos is zero-config. There are no config files to edit, no commands to run, and no restart after setup. Once the server loads, the mod is active immediately. Any player can type `mypos` in chat and it will work.
+
+## Verification
+
+To confirm mypos is working after the server starts, have a player send `mypos` in chat. The player should receive a private message back with their current coordinates in the format `[x,y,z]` — for example:
+
+```text
+[128,64,-37]
+```
+
+If nothing happens, double-check that both Fabric API and mypos are present in `mods/`, and that the Minecraft version matches `~26.1.2`.

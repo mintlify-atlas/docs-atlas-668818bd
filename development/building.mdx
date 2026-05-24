@@ -1,0 +1,69 @@
+---
+title: "Build the mypos Fabric mod from source with Gradle"
+description: "Clone the mypos repository and compile it locally using the Fabric Loom Gradle plugin and JDK 25 to produce a ready-to-install mod jar."
+---
+
+Building mypos from source gives you full control over the compiled artifact and lets you verify exactly what code goes into the jar you install on your server. The build system is standard Fabric Loom, so if you have built other Fabric mods before the process will be familiar.
+
+## Prerequisites
+
+- **JDK 25 or later** — the project sets both `sourceCompatibility` and `targetCompatibility` to Java 25. Older JDKs will fail at compile time.
+- **Git** — to clone the repository.
+
+No separate Gradle installation is required. The repository includes the Gradle wrapper (`gradlew` / `gradlew.bat`), which downloads the correct Gradle version automatically.
+
+## Build steps
+
+<Steps>
+  <Step title="Clone the repository">
+    ```bash
+    git clone https://github.com/allen-wang-2001/mypos.git
+    ```
+  </Step>
+
+  <Step title="Navigate into the project directory">
+    ```bash
+    cd mypos
+    ```
+  </Step>
+
+  <Step title="Build with the Gradle wrapper">
+    <CodeGroup>
+
+    ```bash Unix / macOS
+    ./gradlew build
+    ```
+
+    ```bash Windows
+    gradlew.bat build
+    ```
+
+    </CodeGroup>
+
+    Fabric Loom will automatically download Minecraft 26.1.2 and all declared dependencies (Fabric Loader `>=0.19.2`, Fabric API `0.149.0+26.1.2`) from the Fabric and Mojang Maven repositories. No manual dependency management is needed.
+  </Step>
+
+  <Step title="Locate the output jar">
+    After a successful build, the compiled mod jar is placed in:
+
+    ```
+    build/libs/
+    ```
+
+    The primary jar is named following the pattern `mypos-<version>.jar`. The version comes from `mod_version` in `gradle.properties` (currently `0.1.0`), so the output will be `mypos-0.1.0.jar`. A `-sources.jar` is also generated alongside it because the build script calls `withSourcesJar()`.
+  </Step>
+</Steps>
+
+## Generating Minecraft sources for IDE use
+
+If you want to browse or navigate decompiled Minecraft source code from within your IDE, run:
+
+```bash
+./gradlew genSources
+```
+
+This uses Fabric Loom to decompile and attach Minecraft sources to the dependency, which IntelliJ IDEA and other IDEs can then index for code navigation and documentation on hover.
+
+<Note>
+`genSources` does not affect the compiled output. It only enriches your local development environment and does not need to be re-run unless you change `minecraft_version` in `gradle.properties`.
+</Note>

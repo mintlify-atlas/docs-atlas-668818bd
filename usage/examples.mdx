@@ -1,0 +1,70 @@
+---
+title: "mypos usage examples: share coordinates in Minecraft"
+description: "Walkthrough of real chat scenarios for mypos: private coordinate checks, inline sharing, and multiple substitutions in a single message."
+---
+
+The examples below show what you type, what the server does, and what other players see. All coordinate values are illustrative — your actual output depends on where you are standing when you send the message.
+
+## Example 1: Private coordinate check
+
+Send `mypos` as your entire message to get a private readout. No other players see anything in chat.
+
+```text
+[You type]
+mypos
+
+[You see — private system message]
+[128,-64,256]
+
+[Other players see]
+(nothing)
+```
+
+## Example 2: Inline coordinate sharing
+
+Include `mypos` as part of a longer message. The mod replaces the keyword with your coordinates and broadcasts the result to everyone.
+
+```text
+[You type]
+meet me at mypos
+
+[Everyone sees]
+<PlayerName> meet me at [128,-64,256]
+```
+
+The original message you typed is cancelled. The broadcast is a new system message constructed by the mod with your name prepended.
+
+## Example 3: Multiple substitutions in one message
+
+Every occurrence of `mypos` in the message is replaced. If you mention it twice, both are substituted with the same coordinates.
+
+```text
+[You type]
+I'm at mypos going to mypos
+
+[Everyone sees]
+<PlayerName> I'm at [128,-64,256] going to [128,-64,256]
+```
+
+Both substitutions reflect your position at the moment you sent the message.
+
+<Tip>
+  Use the exact match — send `mypos` by itself — when you only want to check your own coordinates privately. Reserve inline use for when you actually want to share your location with other players.
+</Tip>
+
+## Frequently asked questions
+
+<AccordionGroup>
+  <Accordion title="Why didn't my coordinates show?">
+    The mod only activates when your message contains the exact string `mypos` (case-sensitive, no spaces). If you typed `MyPos`, `my pos`, or `MYPOS`, the message passes through as normal chat with no substitution.
+  </Accordion>
+  <Accordion title="Why can everyone see my coordinates?">
+    If your message contains `mypos` alongside other text, the mod uses inline substitution mode, which always broadcasts to all players. This is intentional — inline use is for sharing your location publicly. If you want only yourself to see the coordinates, send `mypos` as the entire message with nothing else.
+  </Accordion>
+  <Accordion title="What if I only want private coordinates?">
+    Send `mypos` as your complete message — no other words, punctuation, or spaces. The mod detects this as an exact match and sends the coordinates back to you as a private system message that no other player can see.
+  </Accordion>
+  <Accordion title="Are coordinates shown as decimals?">
+    No. Coordinates are rounded to the nearest whole number and displayed without decimal places. For example, if you are at X=128.7, Y=-64.2, Z=256.9, you will see `[128,-64,256]`. This keeps the output concise and aligns with how Minecraft displays block positions.
+  </Accordion>
+</AccordionGroup>

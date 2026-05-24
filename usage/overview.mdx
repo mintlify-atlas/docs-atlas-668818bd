@@ -1,0 +1,47 @@
+---
+title: "How mypos replaces the chat keyword with coordinates"
+description: "Learn how the mypos keyword triggers private coordinate lookups or inline substitution in server chat, and how coordinates are formatted."
+---
+
+mypos listens to every chat message on the server and acts on any message that contains the word `mypos`. Depending on whether `mypos` is the entire message or part of a longer message, it either sends your coordinates privately or replaces the keyword in the public broadcast. No commands or configuration are needed — the mod handles everything transparently on the server side.
+
+## Two ways to use mypos
+
+<Tabs>
+  <Tab title="Exact match (private)">
+    When you send `mypos` as your entire message — nothing else — the mod intercepts the message before it reaches other players. It sends a private system message back to you with your current coordinates. No one else sees anything.
+
+    ```text
+    > mypos
+    [128,-64,256]
+    ```
+
+    The original message is cancelled entirely. Other players see no chat activity.
+  </Tab>
+  <Tab title="Inline substitution (public)">
+    When your message contains `mypos` alongside other text, the mod replaces every occurrence of `mypos` with your coordinates and broadcasts the full message to all players.
+
+    ```text
+    You type:        meet me at mypos
+    Everyone sees:   <PlayerName> meet me at [128,-64,256]
+    ```
+
+    The original message is cancelled and a new broadcast is sent with the substituted coordinates.
+  </Tab>
+</Tabs>
+
+## Coordinate format
+
+Coordinates are formatted as `[X,Y,Z]` with no decimal places. Each axis is rounded to the nearest whole block.
+
+For example, if you are standing at X=128.7, Y=-64.0, Z=256.3, the mod displays `[128,-64,256]`.
+
+<Note>
+  The exact match mode sends coordinates **only to you** as a private system message — the public chat sees nothing. Inline substitution always **broadcasts to all players**, so everyone on the server will see your coordinates embedded in your message.
+</Note>
+
+## Server-side only
+
+mypos runs entirely on the server. Players do not need to install any client mod. From a player's perspective, exact match mode looks like their message was never sent, and inline mode looks like a normal chat message with the coordinates already written in.
+
+The mod registers a `ServerMessageEvents.ALLOW_CHAT_MESSAGE` listener that runs before any message is delivered. When it detects `mypos`, it handles delivery itself and returns `false` to cancel the original message pipeline. Messages that do not contain `mypos` are returned unchanged with `true`, so normal chat is completely unaffected.

@@ -1,0 +1,44 @@
+---
+title: "mypos: Minecraft coordinate sharing via chat keyword"
+description: "Background on mypos, what the mod does, the zero-bloat philosophy behind it, and the exact Minecraft version requirements to run it on your server."
+---
+
+mypos is a Fabric server mod with a single job: intercept chat messages containing the word `mypos` and replace it with the sending player's current X, Y, Z coordinates. This page covers the background behind the mod, what it does, the guiding philosophy, and the requirements your server must meet before installing it.
+
+## What mypos does
+
+When a player sends `mypos` as their entire message, the server suppresses the public chat and sends the coordinates back to that player privately. When a player embeds `mypos` inside a longer message — for example, `meet me at mypos` — the keyword is replaced inline and the full message is broadcast to all players.
+
+There are no commands, no GUIs, and no configuration files. The mod registers a single chat event listener on startup and does nothing else.
+
+## The philosophy
+
+mypos is built around one principle: do one thing, do it well. The mod is designed to be zero-bloat, lightweight, and secure. It does exactly what it says — swaps a keyword for your location — and nothing more. No telemetry, no external network calls, no optional features waiting to be accidentally enabled.
+
+<Note>
+  mypos is a **server-side only** mod. Players do not need to install anything on their Minecraft client to use it.
+</Note>
+
+## Requirements
+
+Your server must meet the following version requirements before installing mypos.
+
+| Dependency     | Required version        |
+| -------------- | ----------------------- |
+| Minecraft      | `~26.1.2`               |
+| Fabric Loader  | `>=0.19.2`              |
+| Fabric API     | `0.149.0+26.1.2` or any compatible build |
+| Java           | `>=25`                  |
+
+These constraints come directly from [`fabric.mod.json`](https://github.com/allen-wang-2001/mypos/blob/main/src/main/resources/fabric.mod.json) and [`gradle.properties`](https://github.com/allen-wang-2001/mypos/blob/main/gradle.properties).
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Installation" icon="download" href="/installation">
+    Step-by-step instructions for adding mypos to your Fabric server.
+  </Card>
+  <Card title="How it works" icon="map-pin" href="/usage/overview">
+    Learn the two coordinate-sharing modes the mod supports.
+  </Card>
+</CardGroup>
